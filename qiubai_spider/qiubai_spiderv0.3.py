@@ -51,7 +51,7 @@ class qiubai_spider:
             try:
                 jokes = self.getPage(self.page)
             except Exception as e:
-                print e
+                print (e)
             else:
                 if(os.path.exists('download') == False):
                     os.mkdir('download')
