@@ -8,15 +8,14 @@ import string
 import urllib
 import urllib2
 
-import sys
-
-
 class PaperScrap_demo:
-    def search(self):
+    def search(self, kw):
+        # 关键词处理
+        kw = kw.replace(" ", "%20")
         # 下载存放路径：
-        if(os.path.exists('download') == False):
-            os.mkdir('download')
-        os.chdir('download')
+        if(os.path.exists('download_paper') == False):
+            os.mkdir('download_paper')
+        os.chdir('download_paper')
         paper_local_path = os.getcwd()+"//"
         # 初始页数
         start = "0"
@@ -28,7 +27,7 @@ class PaperScrap_demo:
         # data = {'search': 'Cyber+Physical+Systems'}
         # data_urlencode = urllib.urlencode(data)
         while True:
-            url = "http://dl.acm.org/results.cfm?query=Cyber%20Physical%20Systems&start="+start+"&filtered=&within=owners.owner%3DHOSTED&dte=&bfr=&srt=_score"
+            url = "http://dl.acm.org/results.cfm?query=" + kw + "&start="+start+"&filtered=&within=owners.owner%3DHOSTED&dte=&bfr=&srt=_score"
             # 自动翻页
             start_int = string.atoi(start, 10)+10
             start = start_int.__str__()
@@ -85,8 +84,11 @@ class PaperScrap_demo:
             f_download.close()
             # f_detail.close()
 
-    def start(self):
-        self.search();
-
 PaperScrap_demo_instance = PaperScrap_demo()
-PaperScrap_demo_instance.start()
+print "=================================================="
+print "所爬网站为ACM Digital Library"
+print "所下载的文章存于当前目录下的download_paper文件夹"
+print "格式为：\n论文题目\n下载地址"
+print "=================================================="
+keyword = raw_input("输入论文关键词（以空格为间隔）:")
+PaperScrap_demo_instance.search(keyword)
